@@ -50,9 +50,11 @@ do_fcps <- function(truth, seed) {
   
   res_char <- as.character(res)
   
-  res_final <- paste0(res_char, ".0")
+  res_char <- paste0(res_char, ".0")
+  
+  res_char[res_char == "NA.0"] <- NA
 
-  return(res_final)
+  return(res_char)
   
 }
 
@@ -65,8 +67,8 @@ write.table(file = outfile, res, col.names = FALSE, row.names = FALSE, quote = F
 
 
 # TEST
-# truth <- read.table(gzfile("Documents/courses/Benchmarking/data/true_labs.txt.gz"), header = FALSE)$V1
+# truth <- read.table(gzfile("Documents/courses/Benchmarking/data/true_labs.txt.gz"), header = FALSE, quote = "\'", na.strings = '""')$V1
 # res <- do_fcps(truth = truth, seed = 66)
 # outfile <- file.path("Downloads", "Bla_predicted_labels.txt")
-# write.table(file = outfile, res, col.names = FALSE, row.names = FALSE, quote = FALSE)
+# write.table(file = outfile, res, col.names = FALSE, row.names = FALSE, quote = FALSE, na = '""')
 
