@@ -35,12 +35,7 @@ load_labels <- function(data_file) {
 }
 
 load_dataset <- function(data_file) {
-  (fd <- read.table(gzfile(data_file), header = TRUE, sep = "\t"))
-}
-
-pin_seed <- function(fun, args, seed) {
-  set.seed(seed)
-  eval(as.call(c(fun, args)))
+  (fd <- read.table(gzfile(data_file), header = TRUE, sep = ","))
 }
 
 # 1) Shuffle of true labels
@@ -90,9 +85,18 @@ outfile <- file.path(args[['output_dir']], paste0(args[['name']], "_predicted_la
 write.table(file = outfile, res, col.names = FALSE, row.names = FALSE, quote = FALSE, na = '""')
 
 
-# TEST
+# TEST 1)
 # truth <- read.table(gzfile("Documents/courses/Benchmarking/data/true_labs.txt.gz"), header = FALSE, quote = "\'", na.strings = '""')$V1
 # res <- do_fcps(truth = truth, seed = 66)
+# outfile <- file.path("Downloads", "Bla_predicted_labels.txt")
+# write.table(file = outfile, res, col.names = FALSE, row.names = FALSE, quote = FALSE, na = '""')
+
+
+# TEST 2)
+# truth <- read.table(gzfile("Documents/courses/Benchmarking/data/true_labs.txt.gz"), header = FALSE, quote = "\'", na.strings = '""')$V1
+# data <- read.table(gzfile("Documents/courses/Benchmarking/data/data_matrix.matrix.gz"), header = TRUE, sep = ",")
+# n_cells <- nrow(data)
+# res <- do_fcps(truth = truth, n_cells = n_cells, seed = 66)
 # outfile <- file.path("Downloads", "Bla_predicted_labels.txt")
 # write.table(file = outfile, res, col.names = FALSE, row.names = FALSE, quote = FALSE, na = '""')
 
