@@ -24,6 +24,12 @@ parser$add_argument('--train.data.matrix',
 parser$add_argument('--labels_train',
                     type="character",
                     help='gz-compressed textfile with the true labels.')
+parser$add_argument('--test.data.matrix',
+                    type="character",
+                    help='gz-compressed textfile containing the comma-separated data to be clustered.')
+parser$add_argument('--labels_test',
+                    type="character",
+                    help='gz-compressed textfile with the true labels.')
 parser$add_argument('--seed',
                     type="integer",
                     help='Random seed',
