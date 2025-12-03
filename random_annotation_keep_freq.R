@@ -43,26 +43,20 @@ pin_seed <- function(fun, args, seed) {
   eval(as.call(c(fun, args)))
 }
 
-do_fcps <- function(data, seed) {
-  
-  # Number of cells
-  n_cells <- nrow(data)
-  
-  # Define some fake cell types
-  cell_types <- colnames(data)
+do_fcps <- function(truth, seed) {
   
   # Randomly assign a class to each cell
-  res <- sample(cell_types, size = n_cells, replace = FALSE)
-
-  return(res)
+  res <- sample(truth)
   
+  return(res)
+
 }
 
 truth <- load_labels(args[['data.true_labels']])
 
-res <- do_fcps(data = load_dataset(args[['data.matrix']]), seed = args$seed)
+res <- do_fcps(data = truth, seed = args$seed)
 
-gz <- gzfile(file.path(args[['output_dir']], paste0(args[['name']], ".labels.gz")), "w")
+gz <- gzfile(file.path(args[['output_dir']], paste0(args[['name']], "_predicted_labels.txt")), "w")
 write.table(file = gz, res, col.names = TRUE, row.names = FALSE, sep = ",")
 close(gz)
 
