@@ -35,7 +35,7 @@ load_labels <- function(data_file) {
 }
 
 load_dataset <- function(data_file) {
-  (fd <- read.table(gzfile(data_file), header = FALSE))
+  (fd <- read.table(gzfile(data_file), header = TRUE, sep = "\t"))
 }
 
 pin_seed <- function(fun, args, seed) {
@@ -43,24 +43,48 @@ pin_seed <- function(fun, args, seed) {
   eval(as.call(c(fun, args)))
 }
 
-do_fcps <- function(truth, seed) {
+# 1) Shuffle of true labels
+# do_fcps <- function(truth, seed) {
+# 
+#   # Randomly assign a class to each cell
+#   res <- sample(truth) 
+#   
+#   res_char <- as.character(res)
+#   
+#   res_char <- paste0(res_char, ".0")
+#   
+#   res_char[res_char == "NA.0"] <- NA
+# 
+#   return(res_char)
+#   
+# }
+
+# 2) Sample from unique true labels
+do_fcps <- function(truth, n_cells, seed) {
 
   # Randomly assign a class to each cell
-  res <- sample(truth) 
-  
-  res_char <- as.character(res)
-  
-  res_char <- paste0(res_char, ".0")
-  
-  res_char[res_char == "NA.0"] <- NA
+  res <- unique(truth)
 
-  return(res_char)
+  res_char <- as.character(res)
+
+  res_char <- paste0(res_char, ".0")
+
+  res_char[res_char == "NA.0"] <- NA
   
+  res_final <- sample(res_char, n_cells, replace = TRUE)
+
+  return(res_final)
+
 }
 
 truth <- load_labels(args[['data.true_labels']])
 
-res <- do_fcps(truth = truth, seed = args$seed)
+# only for 2
+data <- load_dataset(args[['data.matrix']]) 
+n_cells <- nrow(data)
+
+# res <- do_fcps(truth = truth, seed = args$seed) # 1
+res <- do_fcps(truth = truth, n_cells = n_cells, seed = args$seed) # 2
 
 outfile <- file.path(args[['output_dir']], paste0(args[['name']], "_predicted_labels.txt"))
 write.table(file = outfile, res, col.names = FALSE, row.names = FALSE, quote = FALSE, na = '""')
