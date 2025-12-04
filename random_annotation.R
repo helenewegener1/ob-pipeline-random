@@ -86,7 +86,7 @@ do_fcps <- function(truth, n_cells, seed) {
 
 # truth <- load_labels(args[['data.true_labels']])
 truth <- load_labels(args[['labels_test']])
-n_cells <- length(truth)
+n_cells <- length(truth) - 1
 
 # only for 2
 # data <- load_dataset(args[['data.matrix']]) 
