@@ -37,6 +37,8 @@ args <- parser$parse_args()
 train_x_path <- args[['data.train_matrix']]
 train_y_path <- args[['data.train_labels']]
 test_x_path <- args[['data.test_matrix']]
+name <- args[['name']]
+output_dir <- args[['output_dir']]
 
 # FOR TESTING
 # Path to zipped data
@@ -121,7 +123,6 @@ for (test_x_name in names(test_x_list)) {
 }
 
 # Create tar.gz archive of all CSVs
-name <- args[['name']]
 # name <- "random"
 # output_dir <- "~/Documents/courses/Benchmarking/repos/ob-pipeline-random/tmp_out"
 tar(tarfile = glue("{output_dir}/{name}_predicted_labels.tar.gz"), files = csv_files, compression = "gzip", tar = "internal")
